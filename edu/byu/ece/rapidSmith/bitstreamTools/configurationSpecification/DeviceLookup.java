@@ -55,7 +55,8 @@ public class DeviceLookup {
         _libraries = new ArrayList<PartLibrary>(3);
         _libraries.add(new V4PartLibrary());
         _libraries.add(new V5PartLibrary());
-        _libraries.add(new V6PartLibrary()); 
+        _libraries.add(new V6PartLibrary());
+        _libraries.add(new A7PartLibrary());
     }
     
     /**

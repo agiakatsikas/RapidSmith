@@ -302,7 +302,7 @@ public abstract class XilinxDeviceClassGenerator {
     protected void parseParts(List<String> partgenOutput) {
         int currentLine = 0;
 
-        while (currentLine < partgenOutput.size() -1 ){
+        while (currentLine < partgenOutput.size() -2 ){
 
             if(currentLine >= 0){
 
