@@ -18,33 +18,21 @@
  * get a copy of the license at <http://www.gnu.org/licenses/>.
  * 
  */
-package edu.byu.ece.rapidSmith.bitstreamTools.examples;
+package unsw.cse.rsg.ebdAnalysis;
 
-import edu.byu.ece.rapidSmith.bitstreamTools.configurationSpecification.DeviceLookup;
-import edu.byu.ece.rapidSmith.bitstreamTools.configurationSpecification.XilinxConfigurationSpecification;
+import FaultInjectionPlatform.Logger;
+import unipi.sevax.analysis.EBD_analysis;
 
-/**
- * Provides a main method that prints out information about a particular device.
- */
-public class DeviceInformation {
-
-	static public void main(String args[]) {
-
-		if (args.length < 1) {
-			System.err.println("usage: <executable> <part name>\n");
-			DeviceLookup.printAvailableParts(System.err);
-			System.exit(1);
-		}
-
-		String partname = args[0];
-
-		XilinxConfigurationSpecification spec = DeviceLookup.lookupPartV4V5V6S7(partname);
-		if (spec == null) {
-			DeviceLookup.printAvailableParts(System.err);
-			System.exit(1);
-		}
-
-		System.out.println(spec.toString());
+public class runEbd {
+	static String bitstream = "E:\\Dimitris-PC\\Development\\aes_0\\fie\\fie.runs\\impl_1\\fie.bit";
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		Logger logger = new Logger("E:\\Dimitris-PC\\Development\\aes_0\\fie\\fie.runs\\impl_1\\fieEbdAnalysis.txt");
+		EBD_analysis ebd = new EBD_analysis(bitstream, logger);
+		ebd.loadBitStream();
+		ebd.loadEBD();
+		ebd.getResults();
+		//ebd.createDUTSensitiveBits();
 
 	}
 

@@ -82,7 +82,7 @@ public class DeviceLookup {
 
     	// first see if the part can be found from the String
     	if (partName != null) {
-    		partInfo = DeviceLookup.lookupPartV4V5V6(partName);
+    		partInfo = DeviceLookup.lookupPartV4V5V6S7(partName);
     		if (partInfo == null) {
 				System.err.println("Part " + partName + " is not a valid part name. Valid part names include:");
 				printAvailableParts(System.err);
@@ -102,7 +102,7 @@ public class DeviceLookup {
 			partName = bitstream.getHeader().getPartName();
 			// strip the package name from the original part name
 			partName = DeviceLookup.getRootDeviceName(partName);
-			partInfo = DeviceLookup.lookupPartV4V5V6(partName);
+			partInfo = DeviceLookup.lookupPartV4V5V6S7(partName);
 			if (partInfo == null) {
 				System.err.println("Invalid Part Name:"+partName);
 				DeviceLookup.printAvailableParts(System.err);
@@ -135,7 +135,7 @@ public class DeviceLookup {
 			partName = bitstream.getHeader().getPartName();
 			// strip the package name from the original part name
 			partName = DeviceLookup.getRootDeviceName(partName);
-			partInfo = DeviceLookup.lookupPartV4V5V6(partName);
+			partInfo = DeviceLookup.lookupPartV4V5V6S7(partName);
 			return partInfo;
     	}		
     	return partInfo;
@@ -149,22 +149,22 @@ public class DeviceLookup {
      * @param partName Name of the device.
      * @return The corresponding spec or null if none exists.
      */
-    public static XilinxConfigurationSpecification lookupPartV4V5V6(String partName) {
+    public static XilinxConfigurationSpecification lookupPartV4V5V6S7(String partName) {
     	if (partName == null)
     		return null;
     	DeviceLookup lookup = sharedInstance();
-        return lookup.lookupPartV4V5V6Protected(partName);
+        return lookup.lookupPartV4V5V6S7Protected(partName);
     }
 
     /**
      * Given a package device name, return the corresponding {@link XilinxConfigurationSpecification}.
      * This will call getRootDeviceName to strip the package and then call
-     * lookupPartV4V5V6.
+     * lookupPartV4V5V6S7.
      * @return the corresponding XilinxConfigurationSpecification or null if none exists.
      */
-    public static XilinxConfigurationSpecification lookupPartV4V5V6withPackageName(String packageName) {
+    public static XilinxConfigurationSpecification lookupPartV4V5V6S7withPackageName(String packageName) {
     	String rootName = getRootDeviceName(packageName);
-    	return lookupPartV4V5V6(rootName);
+    	return lookupPartV4V5V6S7(rootName);
     }
     
     /**
@@ -272,7 +272,7 @@ public class DeviceLookup {
      * @param partName Name of the device
      * @return Corresponding spec or null if none exists.
      */
-	protected XilinxConfigurationSpecification lookupPartV4V5V6Protected(String partName) {
+	protected XilinxConfigurationSpecification lookupPartV4V5V6S7Protected(String partName) {
 		for (PartLibrary lib : _libraries) {
 			XilinxConfigurationSpecification spec = lib.getPartFromDeviceName(partName);
 			if (spec != null)

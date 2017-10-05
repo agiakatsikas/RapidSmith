@@ -184,16 +184,25 @@ public class XilinxA7DeviceClassGenerator extends XilinxDeviceClassGenerator {
                         }
                         /*else if (name.equals("CMT_TOP_R_UPPER_T") || name.equals("CMT_TOP_R_UPPER_B") || name.equals("CMT_TOP_R_LOWER_T")
                         		|| name.equals("CMT_TOP_R_LOWER_B") || name.equals("CMT_TOP_L_UPPER_T") || name.equals("CMT_TOP_R_LOWER_T")) {*/
-                        else if (name.contains("CMT_TOP_L") || name.contains("CMT_TOP_R")  ){
+                        else if (name.contains("CMT_TOP_L") || name.contains("CMT_TOP_R") ){
                             columnMap.put(column, A7ConfigurationSpecification.CLK);
                         }
+                        else if (name.equals("CLK_BUFG_REBUF") ) {
+                            columnMap.put(column, A7ConfigurationSpecification.CLK);
+                        }
+                        
+                        else if (name.equals("CFG_CENTER_TOP") || name.equals("CFG_CENTER_MID")) {
+                            columnMap.put(column, A7ConfigurationSpecification.CFG);
+                        }
+              
+                        
                         else if (name.contains("GTP_CHANNEL") || name.equals("GTP_COMMON") ) {
                             columnMap.put(column, A7ConfigurationSpecification.GTP);
                         }
                         else if (name.equals("BRAM_L") || name.equals("BRAM_R") || name.equals("BRAM")) {
                             columnMap.put(column, A7ConfigurationSpecification.BRAMINTERCONNECT);
                         }
-                        
+                           
                     }
                     line = in.readLine();
                 }

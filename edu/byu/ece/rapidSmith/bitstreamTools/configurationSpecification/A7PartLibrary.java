@@ -19,11 +19,7 @@
  * 
  */
 /**
-<<<<<<< HEAD
- * This file was auto-generated on Thu Sep 21 11:17:25 AEST 2017
-=======
- * This file was auto-generated on Thu Sep 21 10:58:09 AEST 2017
->>>>>>> origin/master
+ * This file was auto-generated on Fri Sep 22 21:26:44 AEST 2017
  * by edu.byu.ece.rapidSmith.bitstreamTools.configurationSpecification.XilinxA7DeviceClassGenerator.
  * See the source code to make changes.
  *
@@ -32,7 +28,6 @@
 
 
 package edu.byu.ece.rapidSmith.bitstreamTools.configurationSpecification;
-
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -49,8 +44,7 @@ public class A7PartLibrary extends PartLibrary {
 	}
 
 	class XC7A100T extends A7ConfigurationSpecification {
-
-
+        // Wrong
 		public XC7A100T() {
 			super();
 			_deviceName = "XC7A100T";
@@ -61,7 +55,7 @@ public class A7PartLibrary extends PartLibrary {
 			_bottomRows = 2;
 			_blockTypeLayouts = new ArrayList<BlockTypeInstance>(Arrays.asList(new BlockTypeInstance[] {
 					new BlockTypeInstance(LOGIC_INTERCONNECT_BLOCKTYPE, new BlockSubType[] {
-						IOB, CLK, CLB, CLB, CLB, CLB, BRAMINTERCONNECT, CLB, CLB, DSP, CLB, CLB, CLB, CLB, CLB, CLB, CLB, CLB, CLB, CLB, CLB, CLB, CLB, CLB, CLB, CLB, CLB, CLB, CLB, CLB, CLB, CLB, CLB, DSP, CLB, CLB, BRAMINTERCONNECT, CLB, CLB, CLB, CLB, CLB, BRAMINTERCONNECT, CLB, CLB, CLB, DSP, CLB, CLB, BRAMINTERCONNECT, GTP, CLB, CLB, CLB, CLK, LOGIC_OVERHEAD, 
+						IOB, CLK, CLB, CLB, CLB, CLB, BRAMINTERCONNECT, CLB, CLB, DSP, CLB, CLB, CLB, CLB, CLB, CLB, CLB, CLB, CLB, CLB, CLB, CLB, CLB, CLB, CLB, CLB, CLB, CLB, CLB, CLB, CLK, CLB, CLB, CLB, DSP, CLB, CLB, BRAMINTERCONNECT, CLB, CLB, CLB, CLB, CLB, BRAMINTERCONNECT, CLB, CLB, CLB, DSP, CLB, CLB, BRAMINTERCONNECT, GTP, CLB, CLB, CLB, CLK, LOGIC_OVERHEAD, 
 					}),
 					new BlockTypeInstance(BRAM_CONTENT_BLOCKTYPE, new BlockSubType[] {
 						BRAMCONTENT, BRAMCONTENT, BRAMCONTENT, BRAMCONTENT, BRAMOVERHEAD, 
@@ -72,8 +66,15 @@ public class A7PartLibrary extends PartLibrary {
 	}
 
 	class XC7A200T extends A7ConfigurationSpecification {
-
-
+		/*
+		 static protected final int[] ARTIX7_200_COLUMN_FRAMES = { 
+			42,30,36,36,36,36,28,36,36,28,36,36,36,36,28,36,36,28,36,36,36,36,36,36,30,36,36,36,28,36,36,28,36,36,36,
+			36,36,36,36,36,28,36,36,28,36,36,36,36,28,36,36,28,36,36,36,30,36,36,28,36,36,28,36,36,36,36,28,36,36,28,
+			36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,28,36,36,28,36,36,36,36,28,36,36,28,36,36,36,36,30,
+			42
+		};
+		 
+		*/
 		public XC7A200T() {
 			super();
 			_deviceName = "XC7A200T";
@@ -84,10 +85,13 @@ public class A7PartLibrary extends PartLibrary {
 			_bottomRows = 3;
 			_blockTypeLayouts = new ArrayList<BlockTypeInstance>(Arrays.asList(new BlockTypeInstance[] {
 					new BlockTypeInstance(LOGIC_INTERCONNECT_BLOCKTYPE, new BlockSubType[] {
-						IOB, CLK, CLB, CLB, CLB, CLB, BRAMINTERCONNECT, CLB, CLB, DSP, CLB, CLB, CLB, CLB, DSP, CLB, CLB, BRAMINTERCONNECT, CLB, CLB, CLB, CLB, CLB, CLB, CLB, CLB, CLB, BRAMINTERCONNECT, CLB, CLB, DSP, CLB, CLB, CLB, CLB, CLB, CLB, CLB, CLB, BRAMINTERCONNECT, GTP, CLB, CLB, DSP, CLB, CLB, CLB, CLB, DSP, CLB, CLB, BRAMINTERCONNECT, CLB, CLB, CLB, CLB, CLB, BRAMINTERCONNECT, CLB, CLB, DSP, CLB, CLB, CLB, CLB, DSP, GTP, CLB, CLB, BRAMINTERCONNECT, CLB, CLB, CLB, CLB, CLB, CLB, CLB, CLB, CLB, CLB, CLB, CLB, CLB, CLB, CLB, CLB, CLB, CLB, BRAMINTERCONNECT, CLB, CLB, DSP, CLB, CLB, CLB, CLB, DSP, CLB, CLB, BRAMINTERCONNECT, CLB, CLB, CLB, CLB, CLK, LOGIC_OVERHEAD, 
+		IOB, CLK, CLB, CLB, CLB, CLB, BRAMINTERCONNECT, CLB, CLB, DSP, CLB, CLB, CLB, CLB, DSP, CLB, CLB, BRAMINTERCONNECT, CLB, CLB, CLB, CLB, CLB, CLB, CLB, CLB, CLB, CLB,
+		BRAMINTERCONNECT, CLB, CLB, DSP, CLB, CLB, CLB, CLB, CLB, CLB, CLB, CLB, BRAMINTERCONNECT, CLB, CLB, DSP, CLB, CLB, CLB, CLB, DSP, CLB, CLB, BRAMINTERCONNECT,
+		CLB, CLB, CLB, CLK, CLB, CLB, BRAMINTERCONNECT, CLB, CLB, DSP, CLB, CLB, CLB, CLB, DSP, CLB, CLB, BRAMINTERCONNECT, CLB, CLB, CLB, CLB, CLB, CLB, CLB, CLB, CLB, CLB,
+		CLB, CLB, CLB, CLB, CLB, CLB, CLB, CLB, BRAMINTERCONNECT, CLB, CLB, DSP, CLB, CLB, CLB, CLB, DSP, CLB, CLB, BRAMINTERCONNECT, CLB, CLB, CLB, CLB, CLK, IOB, LOGIC_OVERHEAD
 					}),
 					new BlockTypeInstance(BRAM_CONTENT_BLOCKTYPE, new BlockSubType[] {
-						BRAMCONTENT, BRAMCONTENT, BRAMCONTENT, BRAMCONTENT, BRAMCONTENT, BRAMCONTENT, BRAMCONTENT, BRAMCONTENT, BRAMCONTENT, BRAMOVERHEAD, 
+						BRAMCONTENT, BRAMCONTENT, BRAMCONTENT, BRAMCONTENT, BRAMCONTENT, BRAMCONTENT, BRAMCONTENT, BRAMCONTENT, BRAMOVERHEAD, 
 					}),
 			}));
 			_overallColumnLayout = _blockTypeLayouts.get(0).getColumnLayout();

@@ -18,34 +18,34 @@
  * get a copy of the license at <http://www.gnu.org/licenses/>.
  * 
  */
-package edu.byu.ece.rapidSmith.bitstreamTools.examples;
+package unipi.sevax.faultInjection;
 
-import edu.byu.ece.rapidSmith.bitstreamTools.configurationSpecification.DeviceLookup;
-import edu.byu.ece.rapidSmith.bitstreamTools.configurationSpecification.XilinxConfigurationSpecification;
+import com.trolltech.qt.gui.QApplication;
 
-/**
- * Provides a main method that prints out information about a particular device.
- */
-public class DeviceInformation {
+public class FaultInjection {
 
-	static public void main(String args[]) {
-
-		if (args.length < 1) {
-			System.err.println("usage: <executable> <part name>\n");
-			DeviceLookup.printAvailableParts(System.err);
-			System.exit(1);
+	/**
+	 * @param args
+	 */
+	static SerialComm serial;
+	
+	public static void main(String[] args)
+	{
+		QApplication.setGraphicsSystem("raster");
+		QApplication.initialize(args);
+		
+		// TODO Auto-generated method stub
+		serial = new SerialComm();
+		serial.searchForPorts();
+		serial.connect("COM6");
+		if(serial.isConnected() == true)
+		{
+			if(serial.initIOStream() == true)
+			{
+				serial.initListener();
+			}
 		}
-
-		String partname = args[0];
-
-		XilinxConfigurationSpecification spec = DeviceLookup.lookupPartV4V5V6S7(partname);
-		if (spec == null) {
-			DeviceLookup.printAvailableParts(System.err);
-			System.exit(1);
-		}
-
-		System.out.println(spec.toString());
-
+		
 	}
 
 }

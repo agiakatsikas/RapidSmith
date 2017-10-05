@@ -21,7 +21,11 @@
 package edu.byu.ece.rapidSmith.bitstreamTools.examples;
 
 import joptsimple.OptionSet;
+
+import java.util.ArrayList;
+
 import edu.byu.ece.rapidSmith.bitstreamTools.configuration.FPGA;
+import edu.byu.ece.rapidSmith.bitstreamTools.configuration.Frame;
 import edu.byu.ece.rapidSmith.bitstreamTools.configuration.FrameAddressRegister;
 import edu.byu.ece.rapidSmith.bitstreamTools.configurationSpecification.XilinxConfigurationSpecification;
 import edu.byu.ece.rapidSmith.bitstreamTools.examples.support.BitstreamOptionParser;
@@ -119,10 +123,27 @@ public class FrameContents {
 		// Number of frames
 		XilinxConfigurationSpecification partInfo = fpga.getDeviceSpecification();
 		int defaultNumberOfFrames = FrameAddressRegister.getNumberOfFrames(partInfo);
-		int numberOfFrames = cmdLineParser.getIntegerStringExitOnError(options, NUMBER_OF_FRAMES_OPTION, 10, defaultNumberOfFrames);			
-
+		int numberOfFrames = cmdLineParser.getIntegerStringExitOnError(options, NUMBER_OF_FRAMES_OPTION, 10, defaultNumberOfFrames);
+		
+		System.out.println(fpga.getAllFrames().size());
+		int count = 0;
+		ArrayList<Frame> framesList = fpga.getAllFrames();
+		for (Frame frame : framesList) {
+			int frameAddress = frame.getFrameAddress();
+			if (checkIfBRAMContent(frameAddress) == false)
+				count++;
+		}
+		System.out.println(count);
 		System.out.println(fpga.getFrameContents(startFrame, numberOfFrames));
 	}	
 	
+	private static boolean checkIfBRAMContent(int frameAddress){
+		
+		if ( ((frameAddress >> 23) & 0x7) == 1)  {
+			return true;
+		} else {
+			return false;
+		}
+	}
 }
 

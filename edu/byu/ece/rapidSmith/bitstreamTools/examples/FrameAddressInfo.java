@@ -48,7 +48,7 @@ public class FrameAddressInfo {
 			System.exit(1);
 		}
 		
-		XilinxConfigurationSpecification spec = DeviceLookup.lookupPartV4V5V6(partname);
+		XilinxConfigurationSpecification spec = DeviceLookup.lookupPartV4V5V6S7(partname);
 		
 		System.out.println(spec.toString());
 		

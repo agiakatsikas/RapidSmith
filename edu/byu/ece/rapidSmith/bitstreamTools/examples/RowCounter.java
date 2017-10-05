@@ -53,7 +53,7 @@ public static void main(String[] args) {
             e.printStackTrace();
         }
         
-        XilinxConfigurationSpecification spec = DeviceLookup.lookupPartV4V5V6withPackageName(bitstream.getHeader().getPartName());
+        XilinxConfigurationSpecification spec = DeviceLookup.lookupPartV4V5V6S7withPackageName(bitstream.getHeader().getPartName());
         
         FrameAddressRegister far = new FrameAddressRegister(spec);
         

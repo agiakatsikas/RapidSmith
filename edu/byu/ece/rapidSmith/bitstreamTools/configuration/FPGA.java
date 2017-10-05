@@ -294,7 +294,6 @@ public class FPGA {
 		StringBuffer sb = new StringBuffer();
 		XilinxConfigurationSpecification partInfo = getDeviceSpecification();
 		FrameAddressRegister far = new FrameAddressRegister(partInfo, startFrame);
-
 		// Iterate over the number of requested frames but stop if we 
 		// get to an invalid frame address
 		for (int i = startFrame; i < (startFrame + numberOfFrames) && far.validFARAddress(); i++) {
@@ -302,7 +301,6 @@ public class FPGA {
 			if (f != null) {
 				if (f.isConfigured()) {
 					FrameData data = f.getData();
-
 					sb.append(far+"\n");
 					sb.append(data);
 				} else {

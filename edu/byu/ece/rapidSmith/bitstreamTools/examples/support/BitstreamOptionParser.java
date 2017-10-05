@@ -261,7 +261,7 @@ public class BitstreamOptionParser extends OptionParser {
 			partName = cmdPartName;
 		}
 		
-		partInfo = DeviceLookup.lookupPartV4V5V6(partName);
+		partInfo = DeviceLookup.lookupPartV4V5V6S7(partName);
 		if (partInfo == null) {
 			System.err.println("Invalid Part Name:"+partName);
 			DeviceLookup.printAvailableParts(System.err);
@@ -286,7 +286,7 @@ public class BitstreamOptionParser extends OptionParser {
 		// Assume that this is a root part name
 		String partName = (String) options.valueOf(PART_OPTION);
 		
-		partInfo = DeviceLookup.lookupPartV4V5V6(partName);
+		partInfo = DeviceLookup.lookupPartV4V5V6S7(partName);
 		if (partInfo == null) {
 			System.err.println("Invalid Part Name:"+partName);
 			DeviceLookup.printAvailableParts(System.err);

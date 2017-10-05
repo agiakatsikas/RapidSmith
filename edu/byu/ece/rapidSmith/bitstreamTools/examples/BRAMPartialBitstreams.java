@@ -54,7 +54,7 @@ public class BRAMPartialBitstreams {
 		}
 		String partname = args[0];
 			
-		XilinxConfigurationSpecification spec = DeviceLookup.lookupPartV4V5V6(partname);
+		XilinxConfigurationSpecification spec = DeviceLookup.lookupPartV4V5V6S7(partname);
 		
 		int idCode = spec.getIntDeviceIDCode();
 

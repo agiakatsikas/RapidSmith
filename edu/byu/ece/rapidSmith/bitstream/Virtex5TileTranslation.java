@@ -119,7 +119,7 @@ public class Virtex5TileTranslation {
 		// Load up all the RapidSmith data structures
 		Device dev = FileTools.loadDevice(partName + packageName);
 		
-		XilinxConfigurationSpecification spec = DeviceLookup.lookupPartV4V5V6(partName);
+		XilinxConfigurationSpecification spec = DeviceLookup.lookupPartV4V5V6S7(partName);
 
 		FPGA fpga = new FPGA(spec);
 		

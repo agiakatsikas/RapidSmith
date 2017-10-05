@@ -45,19 +45,21 @@ public class A7ConfigurationSpecification extends S7MaskConfigurationSpecificati
 	public static final BlockSubType IOB = new BlockSubType("IOB",42); 
 	public static final BlockSubType DSP = new BlockSubType("DSP",28); 
 	public static final BlockSubType CLK = new BlockSubType("CLK",30); 
-	public static final BlockSubType GTX = new BlockSubType("GTX",30);
-	public static final BlockSubType GTP = new BlockSubType("GTP",30);
+	public static final BlockSubType GTX = new BlockSubType("GTX",36);
+	public static final BlockSubType GTP = new BlockSubType("GTP",36);
+	public static final BlockSubType CFG = new BlockSubType("CFG",30);
 	public static final BlockSubType LOGIC_OVERHEAD = new BlockSubType("LOGIC_OVERHEAD",2); 
 	public static final BlockSubType BRAMINTERCONNECT = new BlockSubType("BRAMINTERCONNECT",28); 
 	public static final BlockSubType BRAMCONTENT = new BlockSubType("BRAMCONTENT",128); 
 	public static final BlockSubType BRAMOVERHEAD = new BlockSubType("BRAMOVERHEAD",2); 
-
+	
 	public static final BlockType LOGIC_INTERCONNECT_BLOCKTYPE = new BlockType("LOGIC", new LinkedHashSet<BlockSubType>(Arrays.asList(
 			new BlockSubType[]{
 			IOB, 
 			CLB, 
 			DSP, 
-			CLK, 
+			CLK,
+			CFG,
 			GTX,
 			GTP,
 			BRAMINTERCONNECT,

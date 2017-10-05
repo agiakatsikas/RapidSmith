@@ -32,7 +32,7 @@ import edu.byu.ece.rapidSmith.bitstreamTools.configurationSpecification.XilinxCo
 
 public class A7BitstreamGenerator extends BitstreamGenerator {
 
-public static int V6_ENDING_FAR = 0x00EF8000;
+public static int S7_ENDING_FAR = 0x00EF8000;
     
     private static A7BitstreamGenerator _singleton = null;
     
@@ -89,7 +89,7 @@ public static int V6_ENDING_FAR = 0x00EF8000;
         packets.addAll(PacketUtils.NOP_PACKETS(100));
         packets.add(PacketUtils.START_CMD_PACKET);
         packets.add(PacketUtils.NOP_PACKET);
-        packets.add(PacketUtils.FAR_WRITE_PACKET(V6_ENDING_FAR));
+        packets.add(PacketUtils.FAR_WRITE_PACKET(S7_ENDING_FAR));
         packets.add(PacketUtils.MASK_PACKET(0x00000101));
         packets.add(PacketUtils.CTL_PACKET(0x00000101));
         packets.addCRCWritePacket();

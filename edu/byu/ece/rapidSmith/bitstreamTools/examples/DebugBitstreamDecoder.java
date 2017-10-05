@@ -62,7 +62,7 @@ public class DebugBitstreamDecoder {
             e.printStackTrace();
         }
         
-        XilinxConfigurationSpecification spec = DeviceLookup.lookupPartV4V5V6withPackageName(bitstream.getHeader().getPartName());
+        XilinxConfigurationSpecification spec = DeviceLookup.lookupPartV4V5V6S7withPackageName(bitstream.getHeader().getPartName());
         
         FrameAddressRegister far = new FrameAddressRegister(spec);
         
@@ -99,6 +99,8 @@ public class DebugBitstreamDecoder {
             }
         }
         
+        int framesAll = 0;
+        
         for (int column : columnMap.keySet()) {
             int numFrames = columnMap.get(column);
             String possible = "possible block sub types: [";
@@ -115,7 +117,8 @@ public class DebugBitstreamDecoder {
                 possible += "]";
             }
             System.out.println("Column: " + column + ",\t# frames: " + numFrames + "\t, " + possible);
+            framesAll = framesAll + numFrames;
         }
-        
+        System.out.println("all frames: " + (framesAll*5));
     }
 }

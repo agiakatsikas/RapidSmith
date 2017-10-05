@@ -41,7 +41,7 @@ public class BitstreamSizeCalculator {
 			ignoreBRAMContent = true;
 		}
 
-		XilinxConfigurationSpecification spec = DeviceLookup.lookupPartV4V5V6(partname);
+		XilinxConfigurationSpecification spec = DeviceLookup.lookupPartV4V5V6S7(partname);
 		if (spec == null) {
 			DeviceLookup.printAvailableParts(System.err);
 			System.exit(1);
