@@ -37,7 +37,7 @@ import edu.byu.ece.rapidSmith.bitstreamTools.configurationSpecification.DeviceLo
 import edu.byu.ece.rapidSmith.bitstreamTools.configurationSpecification.XilinxConfigurationSpecification;
 
 
-public class ExtractEbd {
+public class ExtractEbdbackup0601 {
 	
 	
 	// Nested class representing the column frames range
@@ -67,7 +67,7 @@ public class ExtractEbd {
 			36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,28,36,36,28,36,36,36,36,28,36,36,28,36,36,36,36,30,
 			42, 2
 	};
-			
+		
 	static protected final int FRAME_SIZE_BITS = 3232;
 	static protected final int FRAME_SIZE_WORDS = 101;
 	
@@ -91,23 +91,9 @@ public class ExtractEbd {
 	static ArrayList<FrameExtended> ebdFrames = getEbdEbcFrames(ebdArray);
 	
 	static Bitstream bitstream;
-	static XilinxConfigurationSpecification spec;
-	static FPGA fpga;
 	
 	public static void main(String[] args) {
-		
-		try {
-			bitstream = BitstreamParser.parseBitstream(bitstreamPath);
-		} catch (BitstreamParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		spec = DeviceLookup.lookupPartV4V5V6S7withPackageName(bitstream.getHeader().getPartName());
-		fpga = new FPGA(spec);
-		fpga.configureBitstream(bitstream);
+		// TODO Auto-generated method stub
 		
 		
 		System.out.println("Number of ebd frames = " + (ebdFrames.size()));
@@ -137,22 +123,29 @@ public class ExtractEbd {
 		
 		//createAddress();
 		
-		compareData();
+		compareData(bitstreamPath);
 	}
 	
-	private static void compareData() {
-		
-		FrameData ebdFrameData = null;
-		FrameData ebcFrameData  = null;
-		FrameData bitstreamData = null;
-
+	private static void compareData(String bitstreamPath) {
+		Bitstream bitstream = null;
+		try {
+			bitstream = BitstreamParser.parseBitstream(bitstreamPath);
+		} catch (BitstreamParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		XilinxConfigurationSpecification spec = DeviceLookup.lookupPartV4V5V6S7withPackageName(bitstream.getHeader().getPartName());
+		FPGA fpga = new FPGA(spec);
+		fpga.configureBitstream(bitstream);
 		
 		FrameAddressRegister far = new FrameAddressRegister(spec);
-		int index = 1; // skip the first frame --> DUMMY
-		int sensitiveBitsType1 = 0; // type1 sensitive bits
-		int sensitiveBitsType234 = 0; // type2, 3, 4 sensitive bits		
-		
-		
+		int index = 1; // skip the first frame
+		int sensitiveBitsType1 = 0;
+		int sensitiveBitsType234 = 0;
+		int sensitiveBitsAtColumns25 = 0;
 		for(int h = 0; h < 2; h++) {
 			int rows = 0;
 			if(h == 0){
@@ -163,51 +156,56 @@ public class ExtractEbd {
 			for(int r = 0; r < rows; r++) {
 				for(int c = 0; c < ARTIX7_200_COLUMN_FRAMES.length; c++){
 					int m = 0;
+					if( (c == 25)) {
+						sensitiveBitsAtColumns25 += ebdFrames.get(index++).getData().countBitsSet();
+						sensitiveBitsAtColumns25 += ebdFrames.get(index++).getData().countBitsSet();
+						sensitiveBitsAtColumns25 += ebdFrames.get(index++).getData().countBitsSet();
+						sensitiveBitsAtColumns25 += ebdFrames.get(index++).getData().countBitsSet();
+						sensitiveBitsAtColumns25 += ebdFrames.get(index++).getData().countBitsSet();
+						sensitiveBitsAtColumns25 += ebdFrames.get(index++).getData().countBitsSet();
+					}
 					for(; m < ARTIX7_200_COLUMN_FRAMES[c]; m++) {	
 						int farAddress =  (0 << 23) | (h << 22) | (r << 17) | (c << 7) | m;
 						far.setFAR(farAddress);
-						ebcFrameData = ebcFrames.get(index).getData();
-						bitstreamData = fpga.getFrame(far).getData();
+						FrameData ebcFrameData = ebcFrames.get(index).getData();
 						
+						FrameData ebdFrameData = ebdFrames.get(index).getData();
+						
+						sensitiveBitsType1 += ebdFrameData.countBitsSet();
+						
+						FrameData bitstreamData = fpga.getFrame(far).getData();
 						if ( bitstreamData.isEqual(ebcFrameData) ) {
-							ebdFrameData = ebdFrames.get(index).getData();
-							sensitiveBitsType1 += ebdFrameData.countBitsSet();
-							index++;
+							//System.out.println("BINGO");
 						} else {
-							System.out.println("EBC frame != BitstreamFrame. Propably it is a DUMMY or Type 2, 3, 4 frame");
+							/*System.out.println("TOP = " + h + " ROW = " + r + " COLUMN = " + c + " MINOR = " + m);
 							System.out.println("TOP = " + far.getTopBottom() + " ROW = " + far.getRow() + " COLUMN = " + far.getColumn() + " MINOR = " + far.getMinor());
-							System.out.println("EBC current index = " + index);
-							int indexNew = findIndexEbc(bitstreamData);
-							sensitiveBitsType234 += countBitsEbd(index, indexNew);
-							System.out.println("Adjusting ebc and ebd index = " + indexNew);
-							index = indexNew;
-							ebcFrameData = ebcFrames.get(index).getData();
-							if ( bitstreamData.isEqual(ebcFrameData) ) {
-								ebdFrameData = ebdFrames.get(index).getData();
-								sensitiveBitsType1 += ebdFrameData.countBitsSet();
-								index++;
-							} else {
-								System.out.println("Problem with index");
-								System.exit(0);
-							}
+							System.out.println("MISMATCH!!!!");*/
+							//if ( (ebcFrameData.isEmpty() == false) && (bitstreamData.isEmpty() == false) ) {
+								System.out.println("not empty");
+								System.out.println("TOP = " + far.getTopBottom() + " ROW = " + far.getRow() + " COLUMN = " + far.getColumn() + " MINOR = " + far.getMinor());
+								System.out.println("EBC current index = " + index);
+								System.out.println("Correct index = " + findIndexEbc(bitstreamData));
+								//counter++;
+						//}
 						}
-						
+						index++;
 					}
+					//counter += m;
 				}
 			}
 		}
 		
-		//System.out.println("Sensitive bits at columns 25 (we skip these for the moment) " + sensitiveBitsAtColumns25);
+		System.out.println("Sensitive bits at columns 25 (we skip these for the moment) " + sensitiveBitsAtColumns25);
 		
 		System.out.println("Type 1 sensitive bits = " + sensitiveBitsType1);
 		
-		sensitiveBitsType234 += countBitsEbd(index-1, ebdFrames.size() );
+		sensitiveBitsType234 = countBitsEbd(index-1, ebdFrames.size() );
 
 		System.out.println("Type 2, 3 and 4 sensitive bits = " + sensitiveBitsType234 );
 		
 		System.out.println("All sensitive bits = " + (sensitiveBitsType1 + sensitiveBitsType234));
 		
-		System.out.println("Difference from the actual  = " + (6787478 - ( sensitiveBitsType1 + sensitiveBitsType234) )  );
+		System.out.println("Difference from the actual  = " + (6787478 - ( sensitiveBitsType1 + sensitiveBitsType234 + sensitiveBitsAtColumns25) )  );
 	} 
 	
 	
@@ -297,7 +295,7 @@ public class ExtractEbd {
 		RRRRR = row address (5-bit)
 		CCCCCCCCCC = column address (10-bit)
 		MMMMMMM = minor address (7-bit)
-	
+	*/
 	private static void createAddress() {	
 		int index = 0;
 		int counter = 0;
@@ -344,7 +342,7 @@ public class ExtractEbd {
 		}
 		System.out.println("Number of essentialBits = " + (counter));
 	}
-	*/
+	
 	
 	
 }

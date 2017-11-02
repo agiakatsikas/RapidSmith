@@ -24,15 +24,23 @@ import FaultInjectionPlatform.Logger;
 import unipi.sevax.analysis.EBD_analysis;
 
 public class runEbd {
-	static String bitstream = "E:\\Dimitris-PC\\Development\\aes_0\\fie\\fie.runs\\impl_1\\fie.bit";
+	
+	static protected final String bitstreamPath = "E:/fie.bit";
+	static protected final String ebdFilePath = "E:/fie.ebd";
+	static protected final String ebcFilePath = "E:/fie.ebc";
+	static protected final String logFilePath = "E:/fie.log";
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		Logger logger = new Logger("E:\\Dimitris-PC\\Development\\aes_0\\fie\\fie.runs\\impl_1\\fieEbdAnalysis.txt");
-		EBD_analysis ebd = new EBD_analysis(bitstream, logger);
+/*		Logger logger = new Logger(logFilePath);
+		EBD_analysis ebd = new EBD_analysis(bitstreamPath, logger);
 		ebd.loadBitStream();
 		ebd.loadEBD();
-		ebd.getResults();
+		ebd.getResults();*/
 		//ebd.createDUTSensitiveBits();
+		
+		
+		EssentialBits7Series ebdNew = new EssentialBits7Series(bitstreamPath, ebdFilePath, ebcFilePath);
+		ebdNew.printResults();
 
 	}
 

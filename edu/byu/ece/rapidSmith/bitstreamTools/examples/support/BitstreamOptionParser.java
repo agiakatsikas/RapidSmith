@@ -239,6 +239,16 @@ public class BitstreamOptionParser extends OptionParser {
 		return (String) options.valueOf(OUTPUT_BITSTREAM_OPTION);
 	}
 	
+	public String getStringExitOnError(OptionSet options, String option, String defaultValue) {
+		String stringValue = defaultValue;
+		if (options.has(option)) {
+			String optionValue = null;
+			optionValue = (String) options.valueOf(option);
+			stringValue = optionValue;
+		}
+		return stringValue;
+	}
+	
 	/**
 	 * Extract the part information from the bitstream. If it is not available in the bitstream,
 	 * extract it from the command line options.

@@ -248,7 +248,7 @@ public class SerialComm implements SerialPortEventListener
                 //logText = new String(data);
                 //System.out.print(logText);
                 
-                DeviceBrowser.dataReceived(data);
+//                DeviceBrowser.dataReceived(data);
 
             }
             catch (Exception e)

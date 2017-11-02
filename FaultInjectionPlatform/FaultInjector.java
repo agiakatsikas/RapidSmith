@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Random;
-import fccmDemo.CountTimerGUI;
-
 
 public class FaultInjector {
 	//private double percent;
