@@ -20,9 +20,6 @@
  */
 package unsw.cse.rsg.ebdAnalysis;
 
-import FaultInjectionPlatform.Logger;
-import unipi.sevax.analysis.EBD_analysis;
-
 public class runEbd {
 	
 	static protected final String bitstreamPath = "E:/fie.bit";

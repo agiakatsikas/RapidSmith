@@ -133,6 +133,7 @@ public class EbdAnalysis {
 		return fpgaFrames;
 	}
 	
+	@SuppressWarnings("unused")
 	private boolean checkIfBRAMContent(int frameAddress){
 		
 		if ( ((frameAddress >> 23) & 0x7) == 1)  {

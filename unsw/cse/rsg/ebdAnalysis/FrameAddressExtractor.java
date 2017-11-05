@@ -2,31 +2,6 @@ package unsw.cse.rsg.ebdAnalysis;
 
 import java.io.IOException;
 
-/*
- * Copyright (c) 2010-2011 Brigham Young University
- * 
- * This file is part of the BYU RapidSmith Tools.
- * 
- * BYU RapidSmith Tools is free software: you may redistribute it 
- * and/or modify it under the terms of the GNU General Public License 
- * as published by the Free Software Foundation, either version 2 of 
- * the License, or (at your option) any later version.
- * 
- * BYU RapidSmith Tools is distributed in the hope that it will be 
- * useful, but WITHOUT ANY WARRANTY; without even the implied warranty
- * of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU 
- * General Public License for more details.
- * 
- * A copy of the GNU General Public License is included with the BYU 
- * RapidSmith Tools. It can be found at doc/gpl2.txt. You may also 
- * get a copy of the license at <http://www.gnu.org/licenses/>.
- * 
- */
-
-import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.TreeSet;
 
 import edu.byu.ece.rapidSmith.bitstreamTools.bitstream.Bitstream;
 import edu.byu.ece.rapidSmith.bitstreamTools.bitstream.BitstreamParseException;
@@ -36,7 +11,7 @@ import edu.byu.ece.rapidSmith.bitstreamTools.bitstream.PacketList;
 import edu.byu.ece.rapidSmith.bitstreamTools.bitstream.PacketOpcode;
 import edu.byu.ece.rapidSmith.bitstreamTools.bitstream.PacketType;
 import edu.byu.ece.rapidSmith.bitstreamTools.bitstream.RegisterType;
-import joptsimple.internal.Column;
+
 
 /**
  * This example will search the bitstream for FDRI write commands and will
@@ -116,6 +91,7 @@ public class FrameAddressExtractor {
 		//System.out.println("# of frames = " + ( (61104192 - (farAddresses.size() * 3232) )  / 3232 ));
 	}
 	
+	@SuppressWarnings("unused")
 	private static boolean checkIfBRAMContent(int frameAddress){
 		
 		if ( ((frameAddress >> 23) & 0x7) == 1)  {
