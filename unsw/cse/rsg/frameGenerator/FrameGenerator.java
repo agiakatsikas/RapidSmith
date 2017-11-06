@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 
+import edu.byu.ece.rapidSmith.bitstreamTools.configurationSpecification.S7MaskConfigurationSpecification;
+
 public class FrameGenerator {
 
 	private int left, right, bottom, top = 0;
@@ -31,30 +33,39 @@ public class FrameGenerator {
 	};
 	
 	
+	
+	public FrameGenerator()	{
+//		for(int i = 0; i < ARTIX7_200_COLUMN_FRAMES.length; i++) {
+//			System.out.println(ARTIX7_200_COLUMN_FRAMES[i]);
+//		}
+	}
+	
+	public void printCoordinates(){
+		System.out.println("(" + left + ", " + bottom + "), (" + right + ", " + top + ")");
+	}
+	
 	//slice, dsp or bram coordinates should be set to -1 when not exist 
-	public FrameGenerator(
-			int slice_x_l, int slice_y_b, int slice_x_r, int slice_y_t,
+	public ArrayList<Integer> getFrames(int slice_x_l, int slice_y_b, int slice_x_r, int slice_y_t,
 			int dsp_x_l, int dsp_y_b, int dsp_x_r, int dsp_y_t,
-			int bram_x_l, int bram_y_b, int bram_x_r, int bram_y_t) 
-	{
+			int bram_x_l, int bram_y_b, int bram_x_r, int bram_y_t) {
 		
 		int clb_x_l_col = 10000;
 		if (slice_x_l != -1) {
-			clb_x_l_col = CLB_COL[slice_x_l];
+			clb_x_l_col = CLB_COL[slice_x_l/2];
 		}
 		
 		int clb_x_r_col = -1;
 		if (slice_x_r != -1) {
-			clb_x_r_col =  CLB_COL[slice_x_r];
+			clb_x_r_col =  CLB_COL[(slice_x_r-1)/2];
 		}
 		
 		int clb_y_t_row = -1;
 		if (slice_y_t != -1) {
-			clb_y_t_row = (slice_y_t + 1) / 50;
+			clb_y_t_row = (slice_y_t) / 50;
 		}
 		
 		int clb_y_b_row = -1;
-		if (slice_y_b == -1){
+		if (slice_y_b != -1){
 			clb_y_b_row =  slice_y_b / 50;
 		}
 		
@@ -71,7 +82,7 @@ public class FrameGenerator {
 		
 		int dsp_y_t_row = -1;
 		if (dsp_y_t != -1) {
-			 dsp_y_t_row = (dsp_y_t + 1) / 20;
+			 dsp_y_t_row = (dsp_y_t) / 20;
 		}
 		
 		int dsp_y_b_row = -1;
@@ -92,7 +103,7 @@ public class FrameGenerator {
 		
 		int bram_y_t_row = -1;
 		if (bram_y_t != -1) {
-			bram_y_t_row = (bram_y_t + 1) / 20;
+			bram_y_t_row = (bram_y_t) / 20;
 		}
 		
 		int bram_y_b_row = -1;
@@ -105,53 +116,93 @@ public class FrameGenerator {
 		bottom = Collections.max(Arrays.asList(clb_y_b_row, dsp_y_b_row, bram_y_b_row));
 		top = Collections.max(Arrays.asList(clb_y_t_row, dsp_y_t_row, bram_y_t_row));
 		
-	}
-	
-	
-	public ArrayList<Integer> getFrames() {
 		ArrayList<Integer> frameAddresses = new ArrayList<>();
 		int h, r, c, m = 0;
-		for (int y = bottom; y < top; y++){
+		for (int y = bottom; y <= top; y++){
 			h = getBottom(y);
 			r = getRow(y);
 			for (c = left ; c <= right; c++){
 				for (m = 0; m < ARTIX7_200_COLUMN_FRAMES[c]; m++) {
-					int farAddress =  (0 << 23) | (h << 22) | (r << 17) | (c << 7) | m;
+					int farAddress =  getFrameAddress(0, h, r, c, m);
 					frameAddresses.add(farAddress);
-					System.out.println("BOTTOM = " + h + " ROW = " + r + " COLUMN = " + c + " MINOR = " + m);
+					//System.out.println("BOTTOM = " + h + " ROW = " + r + " COLUMN = " + c + " MINOR = " + m);
 				}
 			}
 		}
-		System.out.println("# of Frammes = "  + frameAddresses.size());
 		return frameAddresses;
 	}
 	
-	private static int getBottom(int y) {
-		if (y >= 0 && y < 150)
-			return 0;
-		else
-			return 1;
+	
+	// 7 series FAR mask
+	private int getFrameAddress(int blockType, int topBottom, int row, int column, int minor){
+		int frameAddress = 
+		  (blockType << S7MaskConfigurationSpecification.S7_BLOCK_TYPE_BIT_POS) 
+		| (topBottom << S7MaskConfigurationSpecification.S7_TOP_BOTTOM_BIT_POS) 
+		| (row << S7MaskConfigurationSpecification.S7_ROW_BIT_POS) 
+		| (column << S7MaskConfigurationSpecification.S7_COLUMN_BIT_POS) 
+		| (minor << S7MaskConfigurationSpecification.S7_MINOR_BIT_POS) ;
+		
+		return frameAddress;
 	}
 	
-	// return the row
-	private static int getRow(int y) {
-		if (getBottom(y) == 1) {
-			if (y >= 0 && y < 50) {
-				return 2;
-			} else if (y >= 50 && y < 100) {
+/*	//Select between top-half rows (0) and bottom-half rows (1).
+	private int getBottom(int y) {
+		if (y >= 0 && y < 149)
+			return 1;
+		else
+			return 0;
+	}*/
+	
+	// return the rows of bottom and top. 
+	// TopBottom = 1, row = 2 --> 0 - 49, row = 1 --> 50 - 99, row 0 --> 100 - 149
+	// TopBottom = 0, row = 0 --> 150-199, row = 1 --> 200-249,  
+//	private int getRow(int y) {
+//		if (getBottom(y) == 1) {
+//			if (y >= 0 && y < 50) {
+//				return 2;
+//			} else if (y >= 50 && y < 100) {
+//				return 1;
+//			} else {
+//				return 0;
+//			}
+//		}
+//			
+//		else {
+//			if (y >= 150 && y < 200) {
+//				return 0;
+//			} else {
+//				return 1;
+//			}
+//		}
+//	}
+		
+		//Select between top-half rows (0) and bottom-half rows (1).
+		private int getBottom(int y) {
+			if (y >= 0 && y <= 2)
 				return 1;
-			} else {
+			else
 				return 0;
+		}
+	     
+		// TopBottom = 1, row = 2 --> 0 - 49, row = 1 --> 50 - 99, row 0 --> 100 - 149
+		// TopBottom = 0, row = 0 --> 150-199, row = 1 --> 200-249,  
+		private int getRow(int y) {
+			if (getBottom(y) == 1) {
+				if (y == 0) {
+					return 2;
+				} else if (y == 1) {
+					return 1;
+				} else {
+					return 0;
+				}
+			}			
+			else {
+				if (y == 3) {
+					return 0;
+				} else {
+					return 1;
+				}
 			}
 		}
-			
-		else {
-			if (y >= 150 && y < 200) {
-				return 0;
-			} else {
-				return 1;
-			}
-		}
-	}
 	
 }

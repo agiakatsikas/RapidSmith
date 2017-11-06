@@ -1,6 +1,5 @@
 package unsw.cse.rsg.frameGenerator;
 
-
 public class Main {
 	
 	
@@ -13,28 +12,16 @@ public class Main {
 		//resize_pblock [get_pblocks pblock_sr_0] -add {RAMB18_X7Y80:RAMB18_X8Y99}
 		//resize_pblock [get_pblocks pblock_sr_0] -add {RAMB36_X7Y40:RAMB36_X8Y49}
 		
-		int slice_x_l = 62; // 124 /2
-		int slice_y_b = 200;
-		int slice_x_r = 81; // (163-1) / 2
-		int slice_y_t = 249;
-		
-		int dsp_x_l = 7;
-		int dsp_y_b = 80;
-		int dsp_x_r = 8;
-		int dsp_y_t = 99;
-		
-		int bram_x_l = 7;
-		int bram_y_b = 80;
-		int bram_x_r = 8;
-		int bram_y_t = 99;
 				
-		FrameGenerator fg = new FrameGenerator(
-				slice_x_l, slice_y_b, slice_x_r, slice_y_t, 
-				dsp_x_l, dsp_y_b, dsp_x_r, dsp_y_t, 
-				bram_x_l, bram_y_b, bram_x_r, bram_y_t) ;
-		
-		fg.getFrames();
-	
+		FrameGenerator fg = new FrameGenerator() ;
+		fg.getFrames(0, 111, 47, 144, 0, 46, 2, 57, 0, 46, 2, 57);
+		fg.printCoordinates();
+		fg.getFrames(56,150,163,199,3,60,8,79,3,60,8,79);
+		fg.printCoordinates();
+		fg.getFrames(54,50,163,99,3,20,8,39,3,20,8,39);
+		fg.printCoordinates();
+		fg.getFrames(56,100,163,149,3,40,8,59,3,40,8,59);
+		fg.printCoordinates();
 	}
 	
 }
