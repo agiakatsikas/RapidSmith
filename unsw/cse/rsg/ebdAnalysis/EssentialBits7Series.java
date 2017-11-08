@@ -150,6 +150,16 @@ public class EssentialBits7Series {
 		}
 		
 		
+		public int countEssentialFrames(ArrayList<Integer> frameAddresses) {
+			int count = 0;
+			for(Integer frameAddress : frameAddresses) {
+				if (hashMapEbdFrames.get(frameAddress).countBitsSet() > 0){
+					count++;
+				}
+			}
+			return count;
+		}
+		
 		public int countEbdBits(ArrayList<Integer> frameAddresses) {
 			int count = 0;
 			for(Integer frameAddress : frameAddresses) {

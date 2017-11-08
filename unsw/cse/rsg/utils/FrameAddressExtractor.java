@@ -1,4 +1,4 @@
-package unsw.cse.rsg.ebdAnalysis;
+package unsw.cse.rsg.utils;
 
 import java.io.IOException;
 
@@ -37,7 +37,7 @@ public class FrameAddressExtractor {
 	public static final int S7_MINOR_MASK = 0x7F << S7_MINOR_BIT_POS;
 	
 	public static void main(String[] args) {
-		String bitstreamName = "E:\\Dimitris-PC\\Development\\aes_0\\fie\\fie.runs\\impl_1\\fie.bit";
+		String bitstreamName = "E:\\fmerImplementation\\motion_1_FL_new\\fie\\fie.runs\\impl_1\\bit\\fie_top_inst_main_inst_r0_partial.bit";
 		//String bitstreamName = "E:\\Dimitris-PC\\Development\\EBD\\dfadd_0_CRC_enabled\\fie.bit";
 		// Get part packets
 		Bitstream bitstream = null;

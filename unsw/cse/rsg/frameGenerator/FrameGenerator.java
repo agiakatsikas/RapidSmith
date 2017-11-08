@@ -1,14 +1,25 @@
 // Generates a list with the frame addresses for a pblock 
 package unsw.cse.rsg.frameGenerator;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import edu.byu.ece.rapidSmith.bitstreamTools.configurationSpecification.S7MaskConfigurationSpecification;
 
 public class FrameGenerator {
-
+	
+	class Coordinates {
+		int l, b, r, t = 0;
+		Coordinates(){}
+	}
+	
 	private int left, right, bottom, top = 0;
 	
 	protected final int[] ARTIX7_200_COLUMN_FRAMES = { 
@@ -32,7 +43,23 @@ public class FrameGenerator {
 			6, 17, 28, 40, 51, 58, 69, 88, 99
 	};
 	
+	private int slice_x_l;
+	private int slice_y_b;
+	private int slice_x_r;
+	private int slice_y_t;
+	private int dsp_x_l ;
+	private int dsp_y_b ;
+	private int dsp_x_r ;
+	private int dsp_y_t ;
+	private int bram_x_l;
+	private int bram_y_b;
+	private int bram_x_r;
+	private int bram_y_t;
+	            
 	
+	public FrameGenerator(String xdcFilePath, String pBlockName) {
+		setCoordinates(xdcFilePath, pBlockName);
+	}
 	
 	public FrameGenerator()	{
 //		for(int i = 0; i < ARTIX7_200_COLUMN_FRAMES.length; i++) {
@@ -44,10 +71,46 @@ public class FrameGenerator {
 		System.out.println("(" + left + ", " + bottom + "), (" + right + ", " + top + ")");
 	}
 	
+	
 	//slice, dsp or bram coordinates should be set to -1 when not exist 
-	public ArrayList<Integer> getFrames(int slice_x_l, int slice_y_b, int slice_x_r, int slice_y_t,
-			int dsp_x_l, int dsp_y_b, int dsp_x_r, int dsp_y_t,
-			int bram_x_l, int bram_y_b, int bram_x_r, int bram_y_t) {
+	public void setCoordinates(Coordinates slices,   Coordinates dsp, Coordinates bram) {
+		
+		this.slice_x_l = slices.l;
+		this.slice_y_b = slices.b;
+		this.slice_x_r = slices.r;
+		this.slice_y_t = slices.t;
+		this.dsp_x_l = dsp.l;
+		this.dsp_y_b = dsp.b;
+		this.dsp_x_r = dsp.r;
+		this.dsp_y_t = dsp.t;
+		this.bram_x_l = bram.l;
+		this.bram_y_b = bram.b;
+		this.bram_x_r = bram.r;
+		this.bram_y_t = bram.t;
+	}
+	
+	public void setCoordinates(String xdcFilePath, String pBlockName) {
+		
+		Coordinates slices = getCoordinates(xdcFilePath, pBlockName, "slice");
+		Coordinates dsp = getCoordinates(xdcFilePath, pBlockName, "dsp48");
+		Coordinates bram = getCoordinates(xdcFilePath, pBlockName, "RAMB18");
+		
+		this.slice_x_l = slices.l;
+		this.slice_y_b = slices.b;
+		this.slice_x_r = slices.r;
+		this.slice_y_t = slices.t;
+		this.dsp_x_l = dsp.l;
+		this.dsp_y_b = dsp.b;
+		this.dsp_x_r = dsp.r;
+		this.dsp_y_t = dsp.t;
+		this.bram_x_l = bram.l;
+		this.bram_y_b = bram.b;
+		this.bram_x_r = bram.r;
+		this.bram_y_t = bram.t;
+	}
+	
+	//slice, dsp or bram coordinates should be set to -1 when not exist 
+	public ArrayList<Integer> getFrames() {
 		
 		int clb_x_l_col = 10000;
 		if (slice_x_l != -1) {
@@ -203,6 +266,69 @@ public class FrameGenerator {
 					return 1;
 				}
 			}
+		}
+		
+		public Coordinates getCoordinates(String xdcFilePath, String pBlockName, String search){
+			ArrayList<String> lines = readFile(xdcFilePath);
+			String regex = "("+ search.toUpperCase() + "_X)(\\d{1,})(Y)(\\d{1,})(:" + search.toUpperCase() +"_X)(\\d{1,})(Y)(\\d{1,})";
+			Coordinates coordinates = new Coordinates();
+			Pattern checkRegex = null;
+			Matcher regexMatcher = null;
+			for (String line : lines) {
+				if(line.contains(pBlockName) && line.contains(search.toUpperCase())){
+					//System.out.println(line);
+					
+					checkRegex = Pattern.compile(regex);
+					regexMatcher = checkRegex.matcher(line);
+					while(regexMatcher.find()) {
+						if(regexMatcher.group().length() != 0) {
+							coordinates.l = Integer.valueOf(regexMatcher.group(2).trim());
+							coordinates.b = Integer.valueOf(regexMatcher.group(4).trim());
+							coordinates.r = Integer.valueOf(regexMatcher.group(6).trim());
+							coordinates.t = Integer.valueOf(regexMatcher.group(8).trim());
+						} else {
+							coordinates.l = -1;	
+							coordinates.b = -1;
+							coordinates.r = -1;		
+							coordinates.t = -1;
+						}
+					}
+				}
+			};
+/*			System.out.println(pBlockName);
+			System.out.println(search);
+			System.out.println(coordinates.l);
+			System.out.println(coordinates.b);
+			System.out.println(coordinates.r);
+			System.out.println(coordinates.t);*/
+			
+			return coordinates;
+			
+		}
+		
+		
+		/**
+		 * @param  the path of a file
+		 * @return An array with strings. Each entry of the array is one line of the 
+		 * file without the newline character            
+		 */
+		private ArrayList<String> readFile(String path){
+			ArrayList<String> lines = new ArrayList<>();
+			String line = "";
+			File f = new File(path);
+			BufferedReader b;
+			try {
+
+	            b = new BufferedReader(new FileReader(f));
+	            while ((line = b.readLine()) != null) {               
+	            	//lines.add(line.replace("\n", "").replace("\r", ""));
+	            	lines.add(line);
+	            }
+
+	        } catch (IOException e) {
+	            e.printStackTrace();
+	        }	
+			return lines;
 		}
 	
 }
