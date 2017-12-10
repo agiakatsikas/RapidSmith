@@ -38,7 +38,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-import FaultInjectionPlatform.Logger;
 import edu.byu.ece.rapidSmith.bitstreamTools.bitstream.Bitstream;
 import edu.byu.ece.rapidSmith.bitstreamTools.bitstream.BitstreamParseException;
 import edu.byu.ece.rapidSmith.bitstreamTools.bitstream.BitstreamParser;

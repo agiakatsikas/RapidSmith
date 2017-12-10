@@ -108,6 +108,7 @@ public class StaticFramesExtractor {
 
 	}
 	
+	@SuppressWarnings("unused")
 	private static void print(ArrayList<Integer> l){
 		int i,j = 0;	
 		for (i = 0; i < l.size(); i++){

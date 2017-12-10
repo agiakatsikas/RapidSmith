@@ -54,7 +54,7 @@ public class BitstreamOptionParser extends OptionParser {
 	}
 
 	/** Standard copyright string. **/
-	public static final String COPYRIGHT = "Copyright (c) 2008-2009 Brigham Young University";
+	public static final String COPYRIGHT = "Copyright (c) 2015 University of New South Wales";
 
 	// Input Bitstream option constants
 	public static final String INPUT_BITSTREAM_OPTION = "i";
@@ -68,7 +68,7 @@ public class BitstreamOptionParser extends OptionParser {
 	public static final String OUTPUT_BITSTREAM_OPTION = "o";
 	public static final String OUTPUT_BITSTREAM_OPTION_HELP = "Filename of output bitfile";
 	public static final String OUTPUT_BITSTREAM_MISSING_OPTION = "The output bitstream filename must be specified with the "+
-		INPUT_BITSTREAM_OPTION + " option";
+			INPUT_BITSTREAM_OPTION + " option";
 	
 	// Part option constants
 	public static final String PART_OPTION = "p";
@@ -239,16 +239,6 @@ public class BitstreamOptionParser extends OptionParser {
 		return (String) options.valueOf(OUTPUT_BITSTREAM_OPTION);
 	}
 	
-	public String getStringExitOnError(OptionSet options, String option, String defaultValue) {
-		String stringValue = defaultValue;
-		if (options.has(option)) {
-			String optionValue = null;
-			optionValue = (String) options.valueOf(option);
-			stringValue = optionValue;
-		}
-		return stringValue;
-	}
-	
 	/**
 	 * Extract the part information from the bitstream. If it is not available in the bitstream,
 	 * extract it from the command line options.
@@ -320,6 +310,16 @@ public class BitstreamOptionParser extends OptionParser {
 		}
 		return intValue;
 	}
+	
+	public String getStringExitOnError(OptionSet options, String option, String defaultValue) {
+		String stringValue = defaultValue;
+		if (options.has(option)) {
+			String optionValue = null;
+			optionValue = (String) options.valueOf(option);
+			stringValue = optionValue;
+		}
+		return stringValue;
+	}
 
 	/**
 	 * Print the 'Usage' of the executable. If there is a help string, print it.
@@ -353,7 +353,6 @@ public class BitstreamOptionParser extends OptionParser {
 	
 	public static void printExecutableHeaderMessage(String exeName) {
 		System.out.println(exeName);
-		System.out.println(ExecutableRevision.getRevisionString() );
 		System.out.println(COPYRIGHT);
 	}
 	

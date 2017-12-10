@@ -1,4 +1,4 @@
-package FaultInjectionPlatform;
+package unipi.sevax.analysis;
 
 import java.io.FileWriter;
 import java.io.IOException;

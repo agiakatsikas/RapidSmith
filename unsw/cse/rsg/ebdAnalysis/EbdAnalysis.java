@@ -23,7 +23,6 @@ package unsw.cse.rsg.ebdAnalysis;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 import java.util.TreeSet;
 
 import edu.byu.ece.rapidSmith.bitstreamTools.bitstream.Bitstream;

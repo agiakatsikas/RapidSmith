@@ -85,7 +85,9 @@ public class A7PartLibrary extends PartLibrary {
 			_bottomRows = 3;
 			_blockTypeLayouts = new ArrayList<BlockTypeInstance>(Arrays.asList(new BlockTypeInstance[] {
 					new BlockTypeInstance(LOGIC_INTERCONNECT_BLOCKTYPE, new BlockSubType[] {
-		IOB, CLK, CLB, CLB, CLB, CLB, BRAMINTERCONNECT, CLB, CLB, DSP, CLB, CLB, CLB, CLB, DSP, CLB, CLB, BRAMINTERCONNECT, CLB, CLB, CLB, CLB, CLB, CLB, CLB, CLB, CLB, CLB,
+		IOB, CLK, CLB, CLB, CLB, CLB, BRAMINTERCONNECT, CLB, CLB, DSP, CLB, CLB, CLB, CLB, DSP, CLB, CLB, BRAMINTERCONNECT, CLB, CLB, CLB, CLB, CLB, 
+		CLB, CFG, 
+		CLB, CLB, CLB,
 		BRAMINTERCONNECT, CLB, CLB, DSP, CLB, CLB, CLB, CLB, CLB, CLB, CLB, CLB, BRAMINTERCONNECT, CLB, CLB, DSP, CLB, CLB, CLB, CLB, DSP, CLB, CLB, BRAMINTERCONNECT,
 		CLB, CLB, CLB, CLK, CLB, CLB, BRAMINTERCONNECT, CLB, CLB, DSP, CLB, CLB, CLB, CLB, DSP, CLB, CLB, BRAMINTERCONNECT, CLB, CLB, CLB, CLB, CLB, CLB, CLB, CLB, CLB, CLB,
 		CLB, CLB, CLB, CLB, CLB, CLB, CLB, CLB, BRAMINTERCONNECT, CLB, CLB, DSP, CLB, CLB, CLB, CLB, DSP, CLB, CLB, BRAMINTERCONNECT, CLB, CLB, CLB, CLB, CLK, IOB, LOGIC_OVERHEAD
@@ -96,6 +98,7 @@ public class A7PartLibrary extends PartLibrary {
 			}));
 			_overallColumnLayout = _blockTypeLayouts.get(0).getColumnLayout();
 		}
+		
 	}
 
 }
